@@ -6,6 +6,8 @@ const LinkForm = ({ onAddLink }) => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [generatedCode, setGeneratedCode] = useState('');
+  const [copied, setCopied] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -13,6 +15,8 @@ const LinkForm = ({ onAddLink }) => {
     // Reset messages
     setMessage('');
     setError('');
+    setGeneratedCode('');
+    setCopied(false);
     
     // Validate URL
     if (!longUrl) {
@@ -26,6 +30,7 @@ const LinkForm = ({ onAddLink }) => {
       
       if (result.success) {
         setMessage('Link created successfully!');
+        setGeneratedCode(result.code);
         // Reset form
         setLongUrl('');
         setCustomCode('');
@@ -37,6 +42,16 @@ const LinkForm = ({ onAddLink }) => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleCopyShortUrl = () => {
+    const shortUrl = `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}/${generatedCode}`;
+    navigator.clipboard.writeText(shortUrl);
+    setCopied(true);
+    
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
   };
 
   return (
@@ -68,12 +83,33 @@ const LinkForm = ({ onAddLink }) => {
           <small>Leave blank for auto-generated code (6-8 characters)</small>
         </div>
         
-        <button type="submit" disabled={loading}>
-          {loading ? 'Creating...' : 'Create Short Link'}
-        </button>
+        <div className="form-actions">
+          <button type="submit" disabled={loading}>
+            {loading ? 'Creating...' : 'Create Short Link'}
+          </button>
+          
+          {generatedCode && (
+            <button 
+              type="button"
+              className="copy-short-url-button"
+              onClick={handleCopyShortUrl}
+            >
+              {copied ? '✓ Copied!' : 'Copy Short URL'}
+            </button>
+          )}
+        </div>
         
         {message && <div className="success-message">{message}</div>}
         {error && <div className="error-message">{error}</div>}
+        
+        {generatedCode && (
+          <div className="generated-url-display">
+            <strong>Your Short URL:</strong>
+            <span className="generated-url">
+              {`${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}/${generatedCode}`}
+            </span>
+          </div>
+        )}
       </form>
     </div>
   );

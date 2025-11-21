@@ -44,10 +44,10 @@ const Dashboard = () => {
   // Add a new link
   const addLink = async (linkData) => {
     try {
-      await axios.post('/api/links', linkData);
+      const response = await axios.post('/api/links', linkData);
       // Refresh the links list
       fetchLinks(false);
-      return { success: true };
+      return { success: true, code: response.data.code };
     } catch (err) {
       if (err.response && err.response.status === 409) {
         return { success: false, error: 'Shortcode already exists' };

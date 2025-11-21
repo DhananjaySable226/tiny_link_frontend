@@ -138,6 +138,7 @@ body {
   font-size: 1rem;
   transition: all 0.3s;
   background: #f8f9fa;
+  color: #000000;
 }
 
 .link-form input:focus {
@@ -176,6 +177,49 @@ body {
   background: #bdc3c7;
   cursor: not-allowed;
   transform: none;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.copy-short-url-button {
+  background: linear-gradient(135deg, #00b894 0%, #00cec9 100%) !important;
+  padding: 1rem 2rem !important;
+}
+
+.copy-short-url-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #00a67e 0%, #00b8b0 100%) !important;
+}
+
+.generated-url-display {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+  border-radius: 10px;
+  border-left: 4px solid #667eea;
+}
+
+.generated-url-display strong {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: #2c3e50;
+  font-size: 1rem;
+}
+
+.generated-url {
+  font-family: 'Courier New', monospace;
+  font-size: 1.1rem;
+  color: #667eea;
+  font-weight: 600;
+  word-break: break-all;
+  display: block;
+  background: white;
+  padding: 0.75rem;
+  border-radius: 6px;
 }
 
 /* Messages */
@@ -251,12 +295,13 @@ body {
   vertical-align: middle;
 }
 
-.link-table th:nth-child(1) { width: 20%; }
-.link-table th:nth-child(2) { width: 30%; }
-.link-table th:nth-child(3) { width: 10%; }
-.link-table th:nth-child(4) { width: 12%; }
+.link-table th:nth-child(1) { width: 12%; }
+.link-table th:nth-child(2) { width: 20%; }
+.link-table th:nth-child(3) { width: 25%; }
+.link-table th:nth-child(4) { width: 8%; }
 .link-table th:nth-child(5) { width: 12%; }
-.link-table th:nth-child(6) { width: 16%; }
+.link-table th:nth-child(6) { width: 12%; }
+.link-table th:nth-child(7) { width: 11%; }
 
 .link-table th {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -291,6 +336,22 @@ body {
   border-radius: 8px;
   font-size: 0.9rem;
   box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.short-url-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.short-url-text {
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+  color: #667eea;
+  font-size: 0.9rem;
+  word-break: break-all;
+  flex: 1;
 }
 
 .url-cell {

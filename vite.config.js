@@ -13,6 +13,11 @@ export default defineConfig({
       '/healthz': {
         target: 'http://localhost:3001',
         changeOrigin: true,
+      },
+      // Proxy short codes to backend for redirect
+      '^/[a-zA-Z0-9]+$': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
       }
     }
   }

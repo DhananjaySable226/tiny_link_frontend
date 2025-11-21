@@ -4,7 +4,8 @@ const LinkTable = ({ links, onDeleteLink }) => {
   const [copiedCode, setCopiedCode] = useState(null);
 
   const handleCopy = (code) => {
-    const shortUrl = `${window.location.protocol}//${window.location.hostname}:3001/${code}`;
+    // Get the full short URL with domain
+    const shortUrl = `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}/${code}`;
     navigator.clipboard.writeText(shortUrl);
     setCopiedCode(code);
     
@@ -39,6 +40,10 @@ const LinkTable = ({ links, onDeleteLink }) => {
     return date.toLocaleString();
   };
 
+  const getShortUrl = (code) => {
+    return `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}/${code}`;
+  };
+
   if (links.length === 0) {
     return (
       <div className="empty-state">
@@ -53,6 +58,7 @@ const LinkTable = ({ links, onDeleteLink }) => {
         <thead>
           <tr>
             <th>Short Code</th>
+            <th>Short URL</th>
             <th>Original URL</th>
             <th>Total Clicks</th>
             <th>Created At</th>
@@ -66,18 +72,19 @@ const LinkTable = ({ links, onDeleteLink }) => {
               <td>
                 <div className="short-code-cell">
                   <span className="short-code">{link.code}</span>
+                </div>
+              </td>
+              <td>
+                <div className="short-url-cell">
+                  <span className="short-url-text" title={getShortUrl(link.code)}>
+                    {getShortUrl(link.code)}
+                  </span>
                   <button 
                     className="copy-button"
                     onClick={() => handleCopy(link.code)}
+                    title="Copy short URL"
                   >
-                    {copiedCode === link.code ? 'Copied!' : 'Copy'}
-                  </button>
-                  <button 
-                    className="visit-button"
-                    onClick={() => handleVisit(link.code)}
-                    title="Test redirect (opens in new tab)"
-                  >
-                    Visit
+                    {copiedCode === link.code ? '✓ Copied!' : 'Copy'}
                   </button>
                 </div>
               </td>
@@ -100,6 +107,13 @@ const LinkTable = ({ links, onDeleteLink }) => {
               <td>{formatDate(link.last_clicked)}</td>
               <td>
                 <div className="action-buttons">
+                  <button 
+                    className="visit-button"
+                    onClick={() => handleVisit(link.code)}
+                    title="Test redirect (opens in new tab)"
+                  >
+                    Visit
+                  </button>
                   <button 
                     className="delete-button"
                     onClick={() => onDeleteLink(link.code)}
