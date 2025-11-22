@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { API_BASE_URL } from '../config';
 
 function RedirectHandler() {
   const { code } = useParams();
 
   useEffect(() => {
     // Redirect to backend for short code handling
-    window.location.href = `http://localhost:3001/${code}`;
+    window.location.href = `${API_BASE_URL}/${code}`;
   }, [code]);
 
   return (

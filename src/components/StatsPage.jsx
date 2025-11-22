@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import { API_BASE_URL } from '../config';
 
 const StatsPage = () => {
   const { code } = useParams();
@@ -13,7 +14,7 @@ const StatsPage = () => {
     const fetchStats = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`/api/links/${code}`);
+        const response = await axios.get(`${API_BASE_URL}/api/links/${code}`);
         setLinkStats(response.data);
         setError(null);
       } catch (err) {

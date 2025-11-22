@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import LinkForm from './LinkForm';
 import LinkTable from './LinkTable';
+import { API_BASE_URL } from '../config';
 
 const Dashboard = () => {
   const [links, setLinks] = useState([]);
@@ -15,7 +16,7 @@ const Dashboard = () => {
       if (showLoader) {
         setLoading(true);
       }
-      const response = await axios.get('/api/links');
+      const response = await axios.get(`${API_BASE_URL}/api/links`);
       setLinks(response.data);
       setError(null);
     } catch (err) {
@@ -32,7 +33,7 @@ const Dashboard = () => {
   // Delete a link
   const deleteLink = async (code) => {
     try {
-      await axios.delete(`/api/links/${code}`);
+      await axios.delete(`${API_BASE_URL}/api/links/${code}`);
       // Refresh the links list
       fetchLinks(false);
     } catch (err) {
@@ -44,7 +45,7 @@ const Dashboard = () => {
   // Add a new link
   const addLink = async (linkData) => {
     try {
-      const response = await axios.post('/api/links', linkData);
+      const response = await axios.post(`${API_BASE_URL}/api/links`, linkData);
       // Refresh the links list
       fetchLinks(false);
       return { success: true, code: response.data.code };
