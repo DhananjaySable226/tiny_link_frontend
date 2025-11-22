@@ -63,7 +63,7 @@ const Dashboard = () => {
     // Auto-refresh every 10 seconds to show updated click counts
     const intervalId = setInterval(() => {
       fetchLinks(false); // Don't show loader on auto-refresh
-    }); // Changed from 3000ms to 10000ms (10 seconds)
+    }, 10000); // Changed from 3000ms to 10000ms (10 seconds)
     
     // Cleanup interval on component unmount
     return () => clearInterval(intervalId);

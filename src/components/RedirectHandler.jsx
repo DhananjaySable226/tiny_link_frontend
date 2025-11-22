@@ -1,26 +1,62 @@
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../config';
 
 function RedirectHandler() {
   const { code } = useParams();
+  const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Redirect to backend for short code handling
-    window.location.href = `${API_BASE_URL}/${code}`;
-  }, [code]);
+    let redirected = false;
+    
+    const performRedirect = async () => {
+      if (redirected) return;
+      
+      try {
+        // First check if the link exists
+        const response = await fetch(`${API_BASE_URL}/api/links/${code}`);
+        
+        if (response.ok) {
+          // Link exists, redirect to backend for click tracking and redirect
+          redirected = true;
+          window.location.href = `${API_BASE_URL}/${code}`;
+        } else if (response.status === 404) {
+          setError('Link not found');
+          setTimeout(() => navigate('/'), 3000);
+        } else {
+          setError('Error loading link');
+          setTimeout(() => navigate('/'), 3000);
+        }
+      } catch (err) {
+        setError('Failed to connect to server');
+        setTimeout(() => navigate('/'), 3000);
+      }
+    };
+    
+    performRedirect();
+  }, [code, navigate]);
 
   return (
     <div style={{ 
       display: 'flex', 
+      flexDirection: 'column',
       justifyContent: 'center', 
       alignItems: 'center', 
       height: '100vh',
       background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
       color: 'white',
-      fontSize: '1.5rem'
+      fontSize: '1.5rem',
+      gap: '1rem'
     }}>
-      Redirecting...
+      {error ? (
+        <>
+          <div>❌ {error}</div>
+          <div style={{ fontSize: '1rem' }}>Redirecting to home...</div>
+        </>
+      ) : (
+        <div>Redirecting...</div>
+      )}
     </div>
   );
 }
