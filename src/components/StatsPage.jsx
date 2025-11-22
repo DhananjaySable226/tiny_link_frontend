@@ -36,7 +36,6 @@ const StatsPage = () => {
     navigator.clipboard.writeText(shortUrl);
     setCopied(true);
     
-    // Reset copied status after 2 seconds
     setTimeout(() => {
       setCopied(false);
     }, 2000);

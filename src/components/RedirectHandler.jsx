@@ -14,11 +14,9 @@ function RedirectHandler() {
       if (redirected) return;
       
       try {
-        // First check if the link exists
         const response = await fetch(`${API_BASE_URL}/api/links/${code}`);
         
         if (response.ok) {
-          // Link exists, redirect to backend for click tracking and redirect
           redirected = true;
           window.location.href = `${API_BASE_URL}/${code}`;
         } else if (response.status === 404) {

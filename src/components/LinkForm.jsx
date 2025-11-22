@@ -12,13 +12,11 @@ const LinkForm = ({ onAddLink }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Reset messages
     setMessage('');
     setError('');
     setGeneratedCode('');
     setCopied(false);
     
-    // Validate URL
     if (!longUrl) {
       setError('Please enter a URL');
       return;
@@ -31,7 +29,6 @@ const LinkForm = ({ onAddLink }) => {
       if (result.success) {
         setMessage('Link created successfully!');
         setGeneratedCode(result.code);
-        // Reset form
         setLongUrl('');
         setCustomCode('');
       } else {

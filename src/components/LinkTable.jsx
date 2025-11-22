@@ -4,27 +4,22 @@ const LinkTable = ({ links, onDeleteLink }) => {
   const [copiedCode, setCopiedCode] = useState(null);
 
   const handleCopy = (code) => {
-    // Get the full short URL with domain
     const shortUrl = `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}/${code}`;
     navigator.clipboard.writeText(shortUrl);
     setCopiedCode(code);
     
-    // Reset copied status after 2 seconds
     setTimeout(() => {
       setCopiedCode(null);
     }, 2000);
   };
 
   const handleVisit = (code) => {
-    // Open the redirect URL in a new tab
     const redirectUrl = `${window.location.protocol}//${window.location.hostname}:3001/${code}`;
     window.open(redirectUrl, '_blank');
   };
 
   const handleUrlClick = (e, code) => {
-    // Prevent default link behavior
     e.preventDefault();
-    // Use the redirect URL instead of direct URL to count clicks
     const redirectUrl = `${window.location.protocol}//${window.location.hostname}:3001/${code}`;
     window.open(redirectUrl, '_blank');
   };

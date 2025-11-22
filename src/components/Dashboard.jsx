@@ -10,7 +10,6 @@ const Dashboard = () => {
   const [error, setError] = useState(null);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
-  // Fetch all links
   const fetchLinks = async (showLoader = false) => {
     try {
       if (showLoader) {
@@ -30,11 +29,9 @@ const Dashboard = () => {
     }
   };
 
-  // Delete a link
   const deleteLink = async (code) => {
     try {
       await axios.delete(`${API_BASE_URL}/api/links/${code}`);
-      // Refresh the links list
       fetchLinks(false);
     } catch (err) {
       setError('Failed to delete link');
@@ -42,11 +39,9 @@ const Dashboard = () => {
     }
   };
 
-  // Add a new link
   const addLink = async (linkData) => {
     try {
       const response = await axios.post(`${API_BASE_URL}/api/links`, linkData);
-      // Refresh the links list
       fetchLinks(false);
       return { success: true, code: response.data.code };
     } catch (err) {
@@ -58,22 +53,19 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    fetchLinks(true); // Show loader on initial load
+    fetchLinks(true);
     
-    // Auto-refresh every 10 seconds to show updated click counts
     const intervalId = setInterval(() => {
-      fetchLinks(false); // Don't show loader on auto-refresh
-    }, 10000); // Changed from 3000ms to 10000ms (10 seconds)
+      fetchLinks(false); 
+    }, 10000);
     
-    // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
   }, []);
 
-  // Listen for when user returns to the page (focus event)
   useEffect(() => {
     const handleFocus = () => {
       if (!isInitialLoad) {
-        fetchLinks(false); // Don't show loader when returning to page
+        fetchLinks(false); 
       }
     };
     
